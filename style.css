@@ -65,11 +65,12 @@ main {
   -o-border-radius: 5px;
 }
 #top-anime-container .title {
-  height: 3.9em;
+  height: 3.8em;
   overflow: hidden;
 }
 a {
   text-decoration: none;
   color: aliceblue;
   text-wrap: wrap;
+  
 }
