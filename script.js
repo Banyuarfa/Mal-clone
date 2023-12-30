@@ -1,14 +1,14 @@
 const api = "https://api.jikan.moe/v4";
 
 const getAnime = () => {
-  topAnime()
+  topAnime();
 };
 const topAnime = async () => {
-    const topFetch = await fetch(
-      `${api}/top/anime?filter=airing&&sfw=true`
-    ).then((response) => response.json());
-    const topDatas = topFetch.data;
-    showAnime(topDatas);
+  const topFetch = await fetch(`${api}/top/anime?filter=airing&&sfw=true`).then(
+    (response) => response.json()
+  );
+  const topDatas = topFetch.data;
+  showAnime(topDatas);
 };
 const showAnime = (topDatas) => {
   let card = "";

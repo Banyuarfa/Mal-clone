@@ -51,7 +51,7 @@ main {
   padding: 5px 0 0 10px;
 }
 
-#top-anime button{
+#top-anime button {
   background-color: #fff;
   color: black;
   font-weight: bold;
@@ -75,9 +75,8 @@ main {
 #top-anime .previous {
   left: -2em;
 }
-#top-anime:hover .previous{
+#top-anime:hover .previous {
   left: 0;
-  
 }
 #top-anime .next {
   right: -2em;
@@ -122,5 +121,4 @@ a {
   text-decoration: none;
   color: aliceblue;
   text-wrap: wrap;
-  
 }
