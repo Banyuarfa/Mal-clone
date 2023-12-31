@@ -147,5 +147,6 @@ footer a {
     height: 3em;
     width: 100%;
     z-index: 998;
+    bottom: 0;
   }
 }
