@@ -134,9 +134,9 @@ a {
 footer a {
   font-weight: bold;
 }
-@media (max-width: 425px) {
+@media screen and (max-width: 425px) {
   nav {
-    height: max-content;
+    height: 72px;
     display: block;
     text-align: center;
   }
@@ -145,6 +145,8 @@ footer a {
   }
   main {
     overflow-y: scroll;
+    top: 72px;
+    margin-bottom: 3em;
   }
   main::-webkit-scrollbar {
     display: none;
