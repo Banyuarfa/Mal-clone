@@ -143,10 +143,13 @@ footer a {
   nav ul {
     display: none;
   }
-  main{
+  main {
     overflow-y: scroll;
   }
-  main::-webkit-scrollbar{
+  main::-webkit-scrollbar {
+    display: none;
+  }
+  button {
     display: none;
   }
 

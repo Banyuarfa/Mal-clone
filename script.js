@@ -51,11 +51,11 @@ const animeUI = (data) => {
 getAnime();
 const score = (rate) => {
   if (rate === null) {
-    return 'N/A'
+    return "N/A";
   } else {
-    return rate
+    return rate;
   }
-}
+};
 const horizontalScrollButton = () => {
   const allNext = document.querySelectorAll(".next");
   const anime = document.querySelector(".anime");
