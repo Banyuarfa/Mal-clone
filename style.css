@@ -152,7 +152,7 @@ footer a {
     display: none;
   }
   button {
-    display: none;
+    opacity: 0;
   }
 
   footer {
