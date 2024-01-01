@@ -151,7 +151,7 @@ footer a {
   main::-webkit-scrollbar {
     display: none;
   }
-  button {
+  .anime button {
     opacity: 0;
   }
 

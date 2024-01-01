@@ -1,40 +1,35 @@
+//List Data Anime
 const api = "https://api.jikan.moe/v4";
-
 const getAnime = async () => {
-  const topFetch = await fetch(`${api}/top/anime?filter=airing&&sfw=true`).then(
-    (response) => response.json()
-  );
-  const seasonFetch = await fetch(`${api}/seasons/now`).then((response) =>
-    response.json()
-  );
-  const upcomingFetch = await fetch(`${api}/top/anime?filter=upcoming`).then(
-    (response) => response.json()
-  );
-  const topDatas = topFetch.data;
-  const seasonDatas = seasonFetch.data;
-  const upcomingDatas = upcomingFetch.data;
-  console.log("🚀 ~ file: script.js:10 ~ getAnime ~ seasonDatas:", seasonDatas);
+  const topFetch = await fetch(`${api}/top/anime?filter=airing&&sfw=true`);
+  const seasonFetch = await fetch(`${api}/seasons/now`);
+  const upcomingFetch = await fetch(`${api}/top/anime?filter=upcoming`);
+  const topJSON = await topFetch.json();
+  const seasonJSON = await seasonFetch.json();
+  const upcomingJSON = await upcomingFetch.json();
+  const topDatas = topJSON.data;
+  const seasonDatas = seasonJSON.data;
+  const upcomingDatas = upcomingJSON.data;
   showAnime(topDatas, seasonDatas, upcomingDatas);
+  console.log("🚀 ~ file: script.js:10 ~ getAnime ~ seasonDatas:", seasonDatas);
 };
-
-const showAnime = (topDatas, seasonDatas, upcomingDatas) => {
-  let card1 = "";
-  let card2 = "";
-  let card3 = "";
-  topDatas.forEach((data) => {
+const showAnime = (...datas) => {
+  console.log(datas);
+  let card = ["", "", ""];
+  datas[0].forEach((data) => {
     const cardContainer = document.querySelector("#top-anime-container");
-    cardContainer.innerHTML = card1;
-    return (card1 += animeUI(data));
+    cardContainer.innerHTML = card[0];
+    return (card[0] += animeUI(data));
   });
-  seasonDatas.forEach((data) => {
+  datas[1].forEach((data) => {
     const cardContainer = document.querySelector("#season-anime-container");
-    cardContainer.innerHTML = card2;
-    return (card2 += animeUI(data));
+    cardContainer.innerHTML = card[1];
+    return (card[1] += animeUI(data));
   });
-  upcomingDatas.forEach((data) => {
+  datas[2].forEach((data) => {
     const cardContainer = document.querySelector("#upcoming-anime-container");
-    cardContainer.innerHTML = card3;
-    return (card3 += animeUI(data));
+    cardContainer.innerHTML = card[2];
+    return (card[2] += animeUI(data));
   });
 };
 const animeUI = (data) => {
@@ -48,7 +43,6 @@ const animeUI = (data) => {
             <p>score ${score(data.score)}</p>
           </div>`;
 };
-getAnime();
 const score = (rate) => {
   if (rate === null) {
     return "N/A";
@@ -72,4 +66,13 @@ const horizontalScrollButton = () => {
     });
   });
 };
+getAnime();
 horizontalScrollButton();
+
+const searchReset = () => {
+  const button = document.querySelector("button[type='submit']");
+  button.addEventListener("click", () => {
+    let searchInput = document.querySelector("input[type='search']");
+  });
+};
+searchReset();
