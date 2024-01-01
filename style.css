@@ -135,9 +135,15 @@ footer a {
   font-weight: bold;
 }
 @media (max-width: 425px) {
+  nav {
+    height: max-content;
+    display: block;
+    text-align: center;
+  }
   nav ul {
     display: none;
   }
+  
   footer {
     background-color: rgb(35, 65, 210);
     display: flex;

@@ -7,26 +7,34 @@ const getAnime = async () => {
   const seasonFetch = await fetch(`${api}/seasons/now`).then((response) =>
     response.json()
   );
+  const upcomingFetch = await fetch(`${api}/top/anime?filter=upcoming`).then(
+    (response) => response.json()
+  );
   const topDatas = topFetch.data;
   const seasonDatas = seasonFetch.data;
+  const upcomingDatas = upcomingFetch.data;
   console.log("🚀 ~ file: script.js:10 ~ getAnime ~ seasonDatas:", seasonDatas);
-  showAnime(topDatas, seasonDatas);
+  showAnime(topDatas, seasonDatas, upcomingDatas);
 };
 
-const showAnime = (topDatas, seasonDatas) => {
+const showAnime = (topDatas, seasonDatas, upcomingDatas) => {
   let card1 = "";
   let card2 = "";
+  let card3 = "";
   topDatas.forEach((data) => {
-    const topCardContainer = document.querySelector("#top-anime-container");
-    topCardContainer.innerHTML = card1;
+    const cardContainer = document.querySelector("#top-anime-container");
+    cardContainer.innerHTML = card1;
     return (card1 += animeUI(data));
   });
   seasonDatas.forEach((data) => {
-    const seasonCardContainer = document.querySelector(
-      "#season-anime-container"
-    );
-    seasonCardContainer.innerHTML = card2;
+    const cardContainer = document.querySelector("#season-anime-container");
+    cardContainer.innerHTML = card2;
     return (card2 += animeUI(data));
+  });
+  upcomingDatas.forEach((data) => {
+    const cardContainer = document.querySelector("#upcoming-anime-container");
+    cardContainer.innerHTML = card3;
+    return (card3 += animeUI(data));
   });
 };
 const animeUI = (data) => {
@@ -37,10 +45,17 @@ const animeUI = (data) => {
                 <h4>${data.title}</h4>
               </div>
             </a>
-            <p>score ${data.score}</p>
+            <p>score ${score(data.score)}</p>
           </div>`;
 };
 getAnime();
+const score = (rate) => {
+  if (rate === null) {
+    return 'N/A'
+  } else {
+    return rate
+  }
+}
 const horizontalScrollButton = () => {
   const allNext = document.querySelectorAll(".next");
   const anime = document.querySelector(".anime");
@@ -58,4 +73,3 @@ const horizontalScrollButton = () => {
   });
 };
 horizontalScrollButton();
-// const test = document.querySelector('.anime')
