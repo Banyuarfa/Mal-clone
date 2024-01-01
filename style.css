@@ -146,7 +146,7 @@ footer a {
   main {
     overflow-y: scroll;
     top: 72px;
-    margin-bottom: 3em;
+    padding-bottom: 3em;
   }
   main::-webkit-scrollbar {
     display: none;
