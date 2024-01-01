@@ -134,7 +134,7 @@ a {
 footer a {
   font-weight: bold;
 }
-@media screen and (max-width: 425px) {
+@media (max-width: 425px) {
   nav {
     height: 72px;
     display: block;
