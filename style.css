@@ -4,6 +4,14 @@
   scroll-behavior: smooth;
   font-family: sans-serif;
 }
+a {
+  text-decoration: none;
+  color: aliceblue;
+  text-wrap: wrap;
+}
+::-webkit-scrollbar {
+  display: none;
+}
 /* navbar */
 nav {
   background-color: rgb(35, 65, 210);
@@ -15,7 +23,7 @@ nav {
   width: 100%;
   z-index: 999;
 }
-nav ul {
+nav .ul-nav {
   display: flex;
 }
 nav h1 {
@@ -23,7 +31,7 @@ nav h1 {
   color: rgb(255, 255, 255);
   padding: 0.2em;
 }
-nav ul li {
+nav .li-nav {
   list-style: none;
   border-radius: 3px;
   font-size: large;
@@ -35,8 +43,25 @@ nav ul li {
   -ms-border-radius: 3px;
   -o-border-radius: 3px;
 }
-nav ul li:hover {
+nav .li-nav:hover {
   background-color: rgb(21, 40, 138);
+}
+nav .search {
+  position: relative;
+}
+nav .ul-search {
+  position: absolute;
+  top: 2.5em;
+  background-color: #303030;
+  min-width: 320px;
+  max-width: 425px;
+  width: 100%;
+}
+nav .li-search {
+  list-style: none;
+  display: block;
+  background-color: #303030;
+  padding: 0.5em 1em;
 }
 nav input {
   margin: 0.5em;
@@ -47,7 +72,11 @@ main {
   position: relative;
   top: 3em;
 }
-
+/* #home,
+#schedule,
+#history {
+  display: none;
+} */
 .anime {
   position: relative;
 }
@@ -109,7 +138,8 @@ main {
 .anime-container::-webkit-scrollbar {
   display: none;
 }
-.anime-container img {
+.anime-container img,
+.search-page .container img {
   border-radius: 5px;
   width: 6em;
   height: 9em;
@@ -118,7 +148,8 @@ main {
   -ms-border-radius: 5px;
   -o-border-radius: 5px;
 }
-.anime-container .title {
+.anime-container .title,
+.search-page .container .title {
   height: 3.7em;
   overflow: hidden;
 }
@@ -126,10 +157,36 @@ main {
   width: 6em;
   color: aliceblue;
 }
-a {
-  text-decoration: none;
+.search-page {
+  margin: auto;
+  max-width: 60em;
+}
+.search-page .container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5em;
+}
+.search-page .page-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5em;
+}
+.page-button {
+  padding: 0.5em 0;
+}
+.page-button button {
+  background: none;
+  border: none;
+  color: rgb(35, 65, 210);
+  font-size: xx-large;
+  font-weight: bold;
+}
+.page-button p {
   color: aliceblue;
-  text-wrap: wrap;
+  font-size: x-large;
+  cursor: pointer;
 }
 footer a {
   font-weight: bold;
@@ -140,8 +197,15 @@ footer a {
     display: block;
     text-align: center;
   }
-  nav ul {
+  nav .ul-nav {
     display: none;
+  }
+  nav .ul-search {
+    top: 2.1em;
+    background-color: #fff;
+  }
+  nav .li-search {
+    text-align: left;
   }
   main {
     overflow-y: scroll;

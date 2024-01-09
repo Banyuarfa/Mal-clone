@@ -1,5 +1,11 @@
 //List Data Anime
 const api = "https://api.jikan.moe/v4";
+let data = [];
+let page = 1;
+let maxPage = 1;
+const numPage = document.querySelector(".page-button p");
+let filter = [];
+
 const getAnime = async () => {
   const topFetch = await fetch(`${api}/top/anime?filter=airing&&sfw=true`);
   const seasonFetch = await fetch(`${api}/seasons/now`);
@@ -11,10 +17,8 @@ const getAnime = async () => {
   const seasonDatas = seasonJSON.data;
   const upcomingDatas = upcomingJSON.data;
   showAnime(topDatas, seasonDatas, upcomingDatas);
-  console.log("🚀 ~ file: script.js:10 ~ getAnime ~ seasonDatas:", seasonDatas);
 };
 const showAnime = (...datas) => {
-  console.log(datas);
   let card = ["", "", ""];
   datas[0].forEach((data) => {
     const cardContainer = document.querySelector("#top-anime-container");
@@ -43,13 +47,7 @@ const animeUI = (data) => {
             <p>score ${score(data.score)}</p>
           </div>`;
 };
-const score = (rate) => {
-  if (rate === null) {
-    return "N/A";
-  } else {
-    return rate;
-  }
-};
+
 const horizontalScrollButton = () => {
   const allNext = document.querySelectorAll(".next");
   const anime = document.querySelector(".anime");
@@ -68,11 +66,81 @@ const horizontalScrollButton = () => {
 };
 getAnime();
 horizontalScrollButton();
-
-const searchReset = () => {
-  const button = document.querySelector("button[type='submit']");
-  button.addEventListener("click", () => {
-    let searchInput = document.querySelector("input[type='search']");
-  });
+const score = (rate) => {
+  if (rate === null) {
+    return "N/A";
+  } else {
+    return rate;
+  }
 };
-searchReset();
+const currentPage = () => {
+  return (numPage.textContent = `${page} of ${maxPage}`);
+};
+const inputPage = () => {
+  const promptValue = parseInt(prompt("masukkan halaman"));
+  if (isNaN(promptValue)) {
+    alert("lu gk masukin angka!");
+  } else {
+    page = promptValue;
+    currentPage();
+    showSearchData();
+  }
+};
+const nextBtn = () => {
+  if (data.pagination.has_next_page) {
+    page++;
+    currentPage();
+    showSearchData();
+  } else {
+    alert("dah mentok");
+    page = page;
+  }
+};
+const prevBtn = () => {
+  if (page <= 1) {
+    page = 1;
+  } else {
+    page--;
+    currentPage();
+    showSearchData();
+  }
+};
+const searchData = async () => {
+  const searchFetch = await fetch(
+    `${api}/anime?sfw=true&&page=${page}&&q=${searchAnime()}`
+  );
+  const searchJSON = await searchFetch.json();
+  data = searchJSON;
+  maxPage = searchJSON.pagination.last_visible_page;
+};
+const showSearchData = async () => {
+  await searchData();
+  let card = "";
+  document.querySelector("#page-container").innerHTML = data.data
+    .map(
+      (data) =>
+        `<div class='anime-card'>
+            <a href='${data.url}'>
+              <img src='${data.images.jpg.image_url}'>
+              <div class='title'>
+                <h4>${data.title}</h4>
+              </div>
+            </a>
+            <p>score ${score(data.score)}</p>
+          </div>`
+    )
+    .join("");
+};
+const searchAnime = () => {
+  page = 1;
+  const searchBtn = document.querySelector("input[type='search']");
+  return searchBtn.value;
+};
+
+numPage.addEventListener("click", inputPage);
+document
+  .querySelector("button[type='submit']")
+  .addEventListener("click", showSearchData);
+document.querySelector("#previous-page").addEventListener("click", prevBtn);
+document.querySelector("#next-page").addEventListener("click", nextBtn);
+showSearchData();

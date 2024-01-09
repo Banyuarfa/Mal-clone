@@ -9,14 +9,20 @@
   <body>
     <nav>
       <h1>UynabAnimeList</h1>
-      <ul>
-        <li><a href="">Home</a></li>
-        <li><a href="">Schedule</a></li>
-        <li><a href="">History</a></li>
+      <ul class="ul-nav">
+        <li class="li-nav"><a href="">Home</a></li>
+        <li class="li-nav"><a href="">Schedule</a></li>
+        <li class="li-nav"><a href="">History</a></li>
       </ul>
       <div class="search">
-        <button type="submit">Submit</button>
-        <input type="search" placeholder="cari anime" />
+        <div>
+          <button type="submit">Submit</button>
+          <input type="search" placeholder="cari anime" autocomplete="off" />
+        </div>
+        <ul class="ul-search">
+          <li class="li-search">bad</li>
+          <li class="li-search">no</li>
+        </ul>
       </div>
     </nav>
     <main>
@@ -48,7 +54,16 @@
       </section>
       <section id="schedule"></section>
       <section id="history"></section>
+      <section class="search-page" id="page">
+        <div class="container" id="page-container"></div>
+        <div class="page-button">
+          <button type="button" id="previous-page"><</button>
+          <p>1</p>
+          <button type="button" id="next-page">></button>
+        </div>
+      </section>
     </main>
+
     <footer>
       <a href="">Home</a>
       <a href="">Schedule</a>
