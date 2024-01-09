@@ -4,22 +4,18 @@ let data = [];
 let page = 1;
 let maxPage = 1;
 const numPage = document.querySelector(".page-button p");
-let filter = [];
 
 const getAnime = async () => {
   const topFetch = await fetch(`${api}/top/anime?filter=airing&&sfw=true`);
   const seasonFetch = await fetch(`${api}/seasons/now`);
-  const upcomingFetch = await fetch(`${api}/top/anime?filter=upcoming`);
   const topJSON = await topFetch.json();
   const seasonJSON = await seasonFetch.json();
-  const upcomingJSON = await upcomingFetch.json();
   const topDatas = topJSON.data;
   const seasonDatas = seasonJSON.data;
-  const upcomingDatas = upcomingJSON.data;
-  showAnime(topDatas, seasonDatas, upcomingDatas);
+  showAnime(topDatas, seasonDatas);
 };
 const showAnime = (...datas) => {
-  let card = ["", "", ""];
+  let card = ["", ""];
   datas[0].forEach((data) => {
     const cardContainer = document.querySelector("#top-anime-container");
     cardContainer.innerHTML = card[0];
@@ -29,11 +25,6 @@ const showAnime = (...datas) => {
     const cardContainer = document.querySelector("#season-anime-container");
     cardContainer.innerHTML = card[1];
     return (card[1] += animeUI(data));
-  });
-  datas[2].forEach((data) => {
-    const cardContainer = document.querySelector("#upcoming-anime-container");
-    cardContainer.innerHTML = card[2];
-    return (card[2] += animeUI(data));
   });
 };
 const animeUI = (data) => {
@@ -132,15 +123,13 @@ const showSearchData = async () => {
     .join("");
 };
 const searchAnime = () => {
-  page = 1;
   const searchBtn = document.querySelector("input[type='search']");
   return searchBtn.value;
 };
-
 numPage.addEventListener("click", inputPage);
 document
   .querySelector("button[type='submit']")
-  .addEventListener("click", showSearchData);
+  .addEventListener("click", searchAnime);
 document.querySelector("#previous-page").addEventListener("click", prevBtn);
 document.querySelector("#next-page").addEventListener("click", nextBtn);
 showSearchData();
