@@ -68,7 +68,7 @@ const currentPage = () => {
   return (numPage.textContent = `${page} of ${maxPage}`);
 };
 const inputPage = () => {
-  const promptValue = parseInt(prompt("masukkan halaman"));
+  const promptValue = parseInt(prompt("masukkan nomor halaman"));
   if (isNaN(promptValue)) {
     alert("lu gk masukin angka!");
   } else {
