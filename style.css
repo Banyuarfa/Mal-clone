@@ -196,6 +196,12 @@ main {
 footer a {
   font-weight: bold;
 }
+.err{
+  justify-content: center;
+}
+/* .err p {
+  place-items: center;
+} */
 @media (max-width: 425px) {
   nav {
     height: 72px;

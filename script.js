@@ -1,44 +1,85 @@
 //List Data Anime
 const api = "https://api.jikan.moe/v4";
 let data = [];
+let allData = [];
 let page = 1;
 let maxPage = 1;
 const numPage = document.querySelector(".page-button p");
 
-const getAnime = async () => {
-  const topFetch = await fetch(`${api}/top/anime?filter=airing&&sfw=true`);
-  const seasonFetch = await fetch(`${api}/seasons/now`);
-  const topJSON = await topFetch.json();
-  const seasonJSON = await seasonFetch.json();
-  const topDatas = topJSON.data;
-  const seasonDatas = seasonJSON.data;
-  showAnime(topDatas, seasonDatas);
-};
-const showAnime = (...datas) => {
-  let card = ["", ""];
-  datas[0].forEach((data) => {
-    const cardContainer = document.querySelector("#top-anime-container");
-    cardContainer.innerHTML = card[0];
-    return (card[0] += animeUI(data));
-  });
-  datas[1].forEach((data) => {
-    const cardContainer = document.querySelector("#season-anime-container");
-    cardContainer.innerHTML = card[1];
-    return (card[1] += animeUI(data));
-  });
-};
-const animeUI = (data) => {
-  return `<div class='anime-card'>
-            <a href='${data.url}'>
-              <img src='${data.images.jpg.image_url}'>
-              <div class='title'>
-                <h4>${data.title}</h4>
-              </div>
-            </a>
-            <p>score ${score(data.score)}</p>
-          </div>`;
+const getTopAnime = async () => {
+  try {
+    const res = await fetch(`${api}/top/anime?filter=airing&&sfw=true`);
+    const datas = await res.json();
+    data = datas.data;
+    switch (res.status) {
+      case 429:
+        throw new Error(res.statusText);
+        break;
+
+      default:
+        throw new Error("bad response");
+        break;
+    }
+  } catch (error) {
+    document.querySelector("#top-anime-container").innerHTML = error;
+  }
 };
 
+const showTopAnime = async () => {
+  await getTopAnime();
+  document.querySelector("#top-anime-container").innerHTML = data
+    .map(
+      (data) => `
+    <div class='anime-card'>
+    <a href='${data.url}'>
+    <img src='${data.images.jpg.image_url}'>
+    <div class='title'>
+    <h4>${data.title}</h4>
+    </div>
+    </a>
+    <p>score ${score(data.score)}</p>
+    </div>`
+    )
+    .join("");
+};
+showTopAnime();
+const getSeasonAnime = async () => {
+  try {
+    const res = await fetch(`${api}/seasons/now`);
+    const datas = await res.json();
+    data = datas.data;
+    console.log(res.status);
+    switch (res.status) {
+      case 429:
+        throw new Error(res.statusText);
+        break;
+
+      default:
+        throw new Error("bad response");
+        break;
+    }
+  } catch (error) {
+    const err = error;
+    document.querySelector("#season-anime-container").innerHTML = err;
+  }
+};
+const showSeasonAnime = async () => {
+  await getSeasonAnime();
+  document.querySelector("#season-anime-container").innerHTML = data
+    .map(
+      (data) => `
+    <div class='anime-card'>
+    <a href='${data.url}'>
+    <img src='${data.images.jpg.image_url}'>
+    <div class='title'>
+    <h4>${data.title}</h4>
+    </div>
+    </a>
+    <p>score ${score(data.score)}</p>
+    </div>`
+    )
+    .join("");
+};
 const horizontalScrollButton = () => {
   const allNext = document.querySelectorAll(".next");
   const anime = document.querySelector(".anime");
@@ -55,7 +96,8 @@ const horizontalScrollButton = () => {
     });
   });
 };
-getAnime();
+const errHandle = (err) => {};
+showSeasonAnime();
 horizontalScrollButton();
 const score = (rate) => {
   if (rate === null) {
@@ -78,7 +120,7 @@ const inputPage = () => {
   }
 };
 const nextBtn = () => {
-  if (data.pagination.has_next_page) {
+  if (allData.pagination.has_next_page) {
     page++;
     currentPage();
     showSearchData();
@@ -97,17 +139,30 @@ const prevBtn = () => {
   }
 };
 const searchData = async () => {
-  const searchFetch = await fetch(
-    `${api}/anime?sfw=true&&page=${page}&&q=${searchAnime()}`
-  );
-  const searchJSON = await searchFetch.json();
-  data = searchJSON;
-  maxPage = searchJSON.pagination.last_visible_page;
+  try {
+    const res = await fetch(
+      `${api}/anime?sfw=true&&page=${page}&&q=${searchAnime()}`
+    );
+    const datas = await res.json();
+    allData = datas;
+    maxPage = datas.pagination.last_visible_page;
+    switch (res.status) {
+      case 429:
+        throw new Error(res.statusText);
+        break;
+
+      default:
+        throw new Error("bad response");
+        break;
+    }
+  } catch (error) {
+    document.querySelector("#page-container").innerHTML = error;
+  }
 };
 const showSearchData = async () => {
   await searchData();
   let card = "";
-  document.querySelector("#page-container").innerHTML = data.data
+  document.querySelector("#page-container").innerHTML = allData.data
     .map(
       (data) =>
         `<div class='anime-card'>
